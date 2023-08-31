@@ -104,7 +104,10 @@ func (u *User) UpdatePassword(username, password string) error {
 	}
 	var res types.BaseResp
 	err := HttpPut(uri, body, &res, u.auth.Headers())
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (u *User) IsUserOnline(username string) (bool, error) {
@@ -237,7 +240,10 @@ func (u *User) SetPushNickname(username, nickname string) error {
 
 	var res types.BaseResp
 	err := HttpPut(uri, &req, &res, u.auth.Headers())
-	return err
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 type UserTokenByUsernameReq struct {
@@ -261,5 +267,8 @@ func (u *User) GetTokenByUsername(req *UserTokenByUsernameReq) (*types.AccessTok
 	uri := u.auth.BuildURI("/token")
 	res := types.AccessTokenResp{}
 	err := HttpPost(uri, body, &res, u.auth.Headers())
-	return &res, err
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }

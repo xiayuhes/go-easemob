@@ -151,7 +151,10 @@ func (s *Auth) GetUserToken(params *AuthGetUserTokenParams) (*types.AccessTokenR
 		uri := s.GetBaseURI() + "/token"
 		res := types.AccessTokenResp{}
 		err := HttpPost(uri, body, &res)
-		return &res, err
+		if err != nil {
+			return nil, err
+		}
+		return &res, nil
 	} else if s.isAgora {
 		res := types.AccessTokenResp{
 			ExpiresIn: s.expireTimeInSeconds,
