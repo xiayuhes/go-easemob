@@ -26,7 +26,7 @@ go get github.com/xiayuhes/go-easemob
 ### 功能点
 
 - [x] 用户体系集成
-- [ ] 推送设置
+- [x] 推送设置
 - [ ] 消息管理
 - [x] 用户属性
 - [ ] 用户关系管理

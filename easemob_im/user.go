@@ -227,3 +227,39 @@ func (u *User) SetMetadata(username string, req *types.UserMetadata) (*types.Use
 	}
 	return res.Data, nil
 }
+
+// SetPushNickname 设置离线推送时显示的昵称
+func (u *User) SetPushNickname(username, nickname string) error {
+	uri := u.auth.BuildURI("/users/" + username)
+
+	req := make(map[string]string)
+	req["nickname"] = nickname
+
+	var res types.BaseResp
+	err := HttpPut(uri, &req, &res, u.auth.Headers())
+	return err
+}
+
+type UserTokenByUsernameReq struct {
+	Username        string
+	AutoCreateUser  bool  // 当用户不存在时，是否自动创建用户, 自动创建用户时，需保证授权方式（grant_type）必须为 inherit
+	ExpireInSeconds int64 // 设置为 -1 则 token 有效期为永久。若不传该参数，有效期默认为 60 天
+}
+
+// GetTokenByUsername 通过用户 ID 获取用户 token
+func (u *User) GetTokenByUsername(req *UserTokenByUsernameReq) (*types.AccessTokenResp, error) {
+	body := map[string]interface{}{
+		"grant_type":     "inherit",
+		"username":       req.Username,
+		"autoCreateUser": req.AutoCreateUser,
+	}
+	if req.ExpireInSeconds > 0 {
+		body["ttl"] = req.ExpireInSeconds
+	} else if req.ExpireInSeconds == -1 {
+		body["ttl"] = 0
+	}
+	uri := u.auth.BuildURI("/token")
+	res := types.AccessTokenResp{}
+	err := HttpPost(uri, body, &res, u.auth.Headers())
+	return &res, err
+}
