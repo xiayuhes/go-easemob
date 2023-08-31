@@ -27,6 +27,7 @@ func HttpGet(url string, res interface{}, headers ...map[string]string) *types.E
 	}
 	_, e := request.Get(url)
 	if e != nil && err == nil {
+		err = &types.ErrResp{}
 		err.Err = e.Error()
 		err.ErrorDescription = e.Error()
 	}
@@ -41,6 +42,7 @@ func HttpPost(url string, req interface{}, res interface{}, headers ...map[strin
 	}
 	_, e := request.Post(url)
 	if e != nil && err == nil {
+		err = &types.ErrResp{}
 		err.Err = e.Error()
 		err.ErrorDescription = e.Error()
 	}
@@ -55,6 +57,7 @@ func HttpPut(url string, req interface{}, res interface{}, headers ...map[string
 	}
 	_, e := request.Put(url)
 	if e != nil && err == nil {
+		err = &types.ErrResp{}
 		err.Err = e.Error()
 		err.ErrorDescription = e.Error()
 	}
@@ -73,6 +76,7 @@ func HttpDelete(url string, req interface{}, res interface{}, headers ...map[str
 	}
 	_, e := request.Delete(url)
 	if e != nil && err == nil {
+		err = &types.ErrResp{}
 		err.Err = e.Error()
 		err.ErrorDescription = e.Error()
 	}
