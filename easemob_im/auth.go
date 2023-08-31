@@ -3,9 +3,9 @@ package easemob_im
 import (
 	"errors"
 	"fmt"
-	"github.com/skyling/easemob-im-golang-service-sdk/agora"
-	"github.com/skyling/easemob-im-golang-service-sdk/cache"
-	"github.com/skyling/easemob-im-golang-service-sdk/types"
+	"github.com/xiayuhes/go-easemob/agora"
+	"github.com/xiayuhes/go-easemob/cache"
+	"github.com/xiayuhes/go-easemob/types"
 	"strings"
 	"time"
 )

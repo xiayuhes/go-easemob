@@ -13,7 +13,7 @@
 
 ### 安装
 ```
-go get github.com/skyling/easemob-im-golang-service-sdk
+go get github.com/xiayuhes/go-easemob
 ```
 
 ### 目录结构

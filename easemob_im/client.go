@@ -3,7 +3,7 @@ package easemob_im
 import (
 	"github.com/go-resty/resty/v2"
 	"github.com/sirupsen/logrus"
-	"github.com/skyling/easemob-im-golang-service-sdk/types"
+	"github.com/xiayuhes/go-easemob/types"
 )
 
 func ErrorHook(req *resty.Request, err error) {

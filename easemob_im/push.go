@@ -2,7 +2,7 @@ package easemob_im
 
 import (
 	"fmt"
-	"github.com/skyling/easemob-im-golang-service-sdk/types"
+	"github.com/xiayuhes/go-easemob/types"
 )
 
 // https://docs-im.easemob.com/push/apppush/integration

@@ -1,7 +1,7 @@
 package easemob_im
 
 import (
-	"github.com/skyling/easemob-im-golang-service-sdk/types"
+	"github.com/xiayuhes/go-easemob/types"
 	"testing"
 )
 

@@ -3,7 +3,7 @@ package easemob_im
 import (
 	"errors"
 	"fmt"
-	"github.com/skyling/easemob-im-golang-service-sdk/types"
+	"github.com/xiayuhes/go-easemob/types"
 	"strings"
 )
 

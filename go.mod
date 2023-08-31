@@ -1,4 +1,4 @@
-module github.com/skyling/easemob-im-golang-service-sdk
+module github.com/xiayuhes/go-easemob
 
 go 1.18
 
