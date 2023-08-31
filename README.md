@@ -28,7 +28,7 @@ go get github.com/skyling/easemob-im-golang-service-sdk
 - [x] 用户体系集成
 - [ ] 推送设置
 - [ ] 消息管理
-- [ ] 用户属性
+- [x] 用户属性
 - [ ] 用户关系管理
 - [ ] 群组
 - [ ] 聊天室

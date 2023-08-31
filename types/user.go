@@ -109,3 +109,20 @@ type UserOfflineMsgCountResp struct {
 	BaseResp
 	Data map[string]int64 `json:"data"`
 }
+
+// UserMetadata 用户属性
+type UserMetadata struct {
+	Nickname  string `json:"nickname"`  // 用户昵称。长度在 64 个字符内。
+	Avatarurl string `json:"avatarurl"` // 用户头像 URL 地址。长度在 256 个字符内。
+	Phone     string `json:"phone"`     // 用户联系方式。长度在 32 个字符内。
+	Mail      string `json:"mail"`      // 用户邮箱。长度在 64 个字符内。
+	Gender    int    `json:"gender"`    // 用户性别 0未知 1男 2女
+	Sign      string `json:"sign"`      // 用户签名。长度在 256 个字符内。
+	Birth     string `json:"birth"`     // 用户生日。长度在 64 个字符内。
+	Ext       string `json:"ext"`       // 扩展字段。
+}
+
+type UserMetadataResp struct {
+	BaseResp
+	Data *UserMetadata `json:"data"`
+}

@@ -216,3 +216,14 @@ func (u *User) GetOfflineMsgCount(username string) (int64, error) {
 	}
 	return res.Data[username], nil
 }
+
+func (u *User) SetMetadata(username string, req *types.UserMetadata) (*types.UserMetadata, error) {
+	uri := u.auth.BuildURI("/metadata/user/" + username)
+
+	var res types.UserMetadataResp
+	err := HttpPut(uri, req, &res, u.auth.Headers())
+	if err != nil {
+		return nil, err
+	}
+	return res.Data, nil
+}
