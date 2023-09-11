@@ -2,6 +2,7 @@ package easemob_im
 
 import (
 	"fmt"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/xiayuhes/go-easemob/types"
 )
 
@@ -23,7 +24,7 @@ func (s *PushLabel) Create(msg *types.PushLabelCreateReq) (*types.PushLabelDataR
 	uri := s.auth.BuildURI("/push/label")
 	var res types.PushLabelDataResp
 	err := HttpPost(uri, msg, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -34,7 +35,7 @@ func (s *PushLabel) Detail(name string) (*types.PushLabelDataResp, error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/push/label/%s", name))
 	var res types.PushLabelDataResp
 	err := HttpGet(uri, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -45,7 +46,7 @@ func (s *PushLabel) Lists(limit int, cursor string) (*types.PushLabelListResp, e
 	uri := s.auth.BuildURI(fmt.Sprintf("/push/label?limit=%d&cursor=%s", limit, cursor))
 	var res types.PushLabelListResp
 	err := HttpGet(uri, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -56,7 +57,7 @@ func (s *PushLabel) Delete(name string) (*types.PushLabelDeleteResp, error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/push/label/%s", name))
 	var res types.PushLabelDeleteResp
 	err := HttpDelete(uri, nil, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -70,7 +71,7 @@ func (s *PushLabel) AddUsers(name string, usernames []string) (*types.PushLabelA
 		"usernames": usernames,
 	}
 	err := HttpPost(uri, req, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -81,7 +82,7 @@ func (s *PushLabel) LabelUserDetail(name string, username string) (*types.PushLa
 	uri := s.auth.BuildURI(fmt.Sprintf("/push/label/%s/user/%s", name, username))
 	var res types.PushLabelUserResp
 	err := HttpGet(uri, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -92,7 +93,7 @@ func (s *PushLabel) LabelUserList(name string, limit int, cursor string) (*types
 	uri := s.auth.BuildURI(fmt.Sprintf("/push/label/%s/user?limit=%d&cursor=%s", name, limit, cursor))
 	var res types.PushLabelUserListResp
 	err := HttpGet(uri, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -106,7 +107,7 @@ func (s *PushLabel) DeleteUsers(name string, usernames []string) (*types.PushLab
 		"usernames": usernames,
 	}
 	err := HttpDelete(uri, req, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil

@@ -3,6 +3,7 @@ package easemob_im
 import (
 	"errors"
 	"fmt"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/xiayuhes/go-easemob/types"
 )
 
@@ -20,7 +21,7 @@ func (s *Group) Create(body types.GroupCreateReq) (groupId string, err error) {
 	uri := s.auth.BuildURI("/chatgroups")
 	var res types.GroupResp
 	err = HttpPost(uri, body, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return
 	}
 	return res.Data["groupid"], nil
@@ -30,7 +31,7 @@ func (s *Group) Disable(groupId string) (err error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/disable", groupId))
 	var res types.GroupDataBoolResp
 	err = HttpPost(uri, nil, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return
 	}
 	if res.Data["disabled"] {
@@ -43,7 +44,7 @@ func (s *Group) Enable(groupId string) (err error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/enable", groupId))
 	var res types.GroupDataBoolResp
 	err = HttpPost(uri, nil, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return
 	}
 	if !res.Data["disabled"] {
@@ -56,7 +57,7 @@ func (s *Group) Edit(groupId string, body types.GroupEditReq) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
 	var res types.GroupDataBoolResp
 	err := HttpPut(uri, body, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return err
 	}
 	for k, v := range res.Data {
@@ -71,7 +72,7 @@ func (s *Group) Delete(groupId string) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
 	var res types.GroupDataAnyResp
 	err := HttpDelete(uri, nil, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return err
 	}
 
@@ -87,7 +88,7 @@ func (s *Group) ChangeOwner(groupId, newOwner string) error {
 	req := make(map[string]string)
 	req["newowner"] = newOwner
 	err := HttpPut(uri, req, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return err
 	}
 	if res.Data["newowner"] {
@@ -100,7 +101,7 @@ func (s *Group) AdminList(groupId string) (out []string) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/admin", groupId))
 	var res types.GroupAdminListResp
 	err := HttpGet(uri, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return
 	}
 	out = res.Data

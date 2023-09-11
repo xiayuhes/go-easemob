@@ -3,6 +3,7 @@ package easemob_im
 import (
 	"errors"
 	"fmt"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/xiayuhes/go-easemob/agora"
 	"github.com/xiayuhes/go-easemob/cache"
 	"github.com/xiayuhes/go-easemob/types"
@@ -151,7 +152,7 @@ func (s *Auth) GetUserToken(params *AuthGetUserTokenParams) (*types.AccessTokenR
 		uri := s.GetBaseURI() + "/token"
 		res := types.AccessTokenResp{}
 		err := HttpPost(uri, body, &res)
-		if err != nil {
+		if !gvar.New(err).IsEmpty() {
 			return nil, err
 		}
 		return &res, nil
@@ -192,7 +193,7 @@ func (s *Auth) getRemoteApiURI() string {
 	uri := fmt.Sprintf("%s/easemob/server.json?app_key=%s", DnsURL, s.appKey)
 	var result types.ServerResp
 	err := HttpGet(uri, &result)
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return ""
 	}
 	for _, v := range result.Rest.Hosts {
@@ -215,7 +216,7 @@ func (s *Auth) getEaseMobAccessToken() string {
 	}
 	token := types.AccessTokenResp{}
 	err := HttpPost(uri, body, &token)
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return ""
 	}
 	// set cache
@@ -238,7 +239,7 @@ func (s *Auth) agoraToken2EaseMobToken() string {
 	}
 	res := types.AccessTokenResp{}
 	err := HttpPost(uri, body, &res, headers)
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return ""
 	}
 	if res.AccessToken != "" {

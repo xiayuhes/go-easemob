@@ -2,6 +2,7 @@ package easemob_im
 
 import (
 	"fmt"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/xiayuhes/go-easemob/types"
 )
 
@@ -23,7 +24,7 @@ func (s *Push) Single(msg *types.PushSingleReq) (*types.PushSingleResp, error) {
 	uri := s.auth.BuildURI("/push/single")
 	var res types.PushSingleResp
 	err := HttpPost(uri, msg, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -34,7 +35,7 @@ func (s *Push) Message(msg *types.PushDataBaseMessage) (*types.PushMessageResp, 
 	uri := s.auth.BuildURI("/push/message")
 	var res types.PushMessageResp
 	err := HttpPost(uri, msg, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -45,7 +46,7 @@ func (s *Push) GetMessage(id string) (*types.GetPushMessageResp, error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/push/message/%s", id))
 	var res types.GetPushMessageResp
 	err := HttpGet(uri, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -56,7 +57,7 @@ func (s *Push) TaskBroadcast(msg *types.PushTaskBroadcastReq) (*types.PushMessag
 	uri := s.auth.BuildURI("/push/task/broadcast")
 	var res types.PushMessageResp
 	err := HttpPost(uri, msg, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -67,7 +68,7 @@ func (s *Push) Task(msg *types.PushTaskReq) (*types.PushMessageResp, error) {
 	uri := s.auth.BuildURI("/push/task")
 	var res types.PushMessageResp
 	err := HttpPost(uri, msg, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
@@ -78,7 +79,7 @@ func (s *Push) List(msg *types.PushListReq) (*types.PushListResp, error) {
 	uri := s.auth.BuildURI("/push/list")
 	var res types.PushListResp
 	err := HttpPost(uri, msg, &res, s.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil

@@ -3,6 +3,7 @@ package easemob_im
 import (
 	"errors"
 	"fmt"
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/xiayuhes/go-easemob/types"
 	"strings"
 )
@@ -26,7 +27,7 @@ func (u *User) Create(users ...types.UserCreateReq) ([]*types.UserEntity, error)
 	uri := u.auth.BuildURI("/users")
 	var res types.UserResp
 	err := HttpPost(uri, users, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return res.Entities, nil
@@ -40,7 +41,7 @@ func (u *User) Get(username string) (*types.UserEntity, error) {
 	uri := u.auth.BuildURI("/users/" + username)
 	var res types.UserListResp
 	err := HttpGet(uri, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return res.Entities[0], err
@@ -56,7 +57,7 @@ func (u *User) ListUsers(req *types.ListUserReq) ([]*types.UserEntity, string, e
 	uri := u.auth.GetBaseURI() + "/users?" + req.BuildQuery()
 	var res types.UserListResp
 	err := HttpGet(uri, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, "", err
 	}
 	return res.Entities, res.Cursor, nil
@@ -70,7 +71,7 @@ func (u *User) Delete(username string) (bool, error) {
 	uri := u.auth.BuildURI("/users/" + username)
 	var res types.UserResp
 	err := HttpDelete(uri, nil, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return false, err
 	}
 	if len(res.Entities) != 1 {
@@ -86,7 +87,7 @@ func (u *User) BatchDelete(limit int64) ([]*types.UserEntity, error) {
 	uri := u.auth.BuildURI(fmt.Sprintf("/users?limit=%d", limit))
 	var res types.UserResp
 	err := HttpDelete(uri, nil, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return res.Entities, nil
@@ -104,7 +105,7 @@ func (u *User) UpdatePassword(username, password string) error {
 	}
 	var res types.BaseResp
 	err := HttpPut(uri, body, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return err
 	}
 	return nil
@@ -143,7 +144,7 @@ func (u *User) ForceLogoutAllDevices(username string) (bool, error) {
 	uri := u.auth.BuildURI(fmt.Sprintf("/users/%s/disconnect", username))
 	var res types.UserResultResp
 	err := HttpGet(uri, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return false, err
 	}
 	return res.Data.Result, nil
@@ -157,7 +158,7 @@ func (u *User) UserStatus(username string) (bool, error) {
 	uri := u.auth.BuildURI(fmt.Sprintf("/users/%s/status", username))
 	var res types.UserStatusResp
 	err := HttpGet(uri, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return false, err
 	}
 	return res.Data[username] == "online", nil
@@ -170,7 +171,7 @@ func (u *User) UsersStatus(usernames []string) (map[string]bool, error) {
 	}
 	var res types.UsersStatusResp
 	err := HttpPost(uri, body, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	ret := map[string]bool{}
@@ -190,7 +191,7 @@ func (u *User) UserMutes(req *types.UserMutesReq) (bool, error) {
 
 	var res types.UserResultResp
 	err := HttpPost(uri, req, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return false, err
 	}
 	return res.Data.Result, nil
@@ -202,7 +203,7 @@ func (u *User) GetUserMutes(username string) (*types.UserMutesData, error) {
 
 	var res types.UserMutesResp
 	err := HttpGet(uri, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return res.Data, nil
@@ -214,7 +215,7 @@ func (u *User) GetOfflineMsgCount(username string) (int64, error) {
 
 	var res types.UserOfflineMsgCountResp
 	err := HttpGet(uri, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return 0, err
 	}
 	return res.Data[username], nil
@@ -225,7 +226,7 @@ func (u *User) SetMetadata(username string, req *types.UserMetadata) (*types.Use
 
 	var res types.UserMetadataResp
 	err := HttpPut(uri, req, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return res.Data, nil
@@ -240,7 +241,7 @@ func (u *User) SetPushNickname(username, nickname string) error {
 
 	var res types.BaseResp
 	err := HttpPut(uri, &req, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return err
 	}
 	return nil
@@ -267,7 +268,7 @@ func (u *User) GetTokenByUsername(req *UserTokenByUsernameReq) (*types.AccessTok
 	uri := u.auth.BuildURI("/token")
 	res := types.AccessTokenResp{}
 	err := HttpPost(uri, body, &res, u.auth.Headers())
-	if err != nil {
+	if !gvar.New(err).IsEmpty() {
 		return nil, err
 	}
 	return &res, nil
