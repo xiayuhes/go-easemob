@@ -1,0 +1,108 @@
+package easemob_im
+
+import (
+	"errors"
+	"fmt"
+	"github.com/xiayuhes/go-easemob/types"
+)
+
+type Group struct {
+	auth *Auth
+}
+
+func NewGroup(auth *Auth) *Group {
+	return &Group{
+		auth: auth,
+	}
+}
+
+func (s *Group) Create(body types.GroupCreateReq) (groupId string, err error) {
+	uri := s.auth.BuildURI("/chatgroups")
+	var res types.GroupResp
+	err = HttpPost(uri, body, &res, s.auth.Headers())
+	if err != nil {
+		return
+	}
+	return res.Data["groupid"], nil
+}
+
+func (s *Group) Disable(groupId string) (err error) {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/disable", groupId))
+	var res types.GroupDataBoolResp
+	err = HttpPost(uri, nil, &res, s.auth.Headers())
+	if err != nil {
+		return
+	}
+	if res.Data["disabled"] {
+		return nil
+	}
+	return errors.New("disable error")
+}
+
+func (s *Group) Enable(groupId string) (err error) {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/enable", groupId))
+	var res types.GroupDataBoolResp
+	err = HttpPost(uri, nil, &res, s.auth.Headers())
+	if err != nil {
+		return
+	}
+	if !res.Data["disabled"] {
+		return nil
+	}
+	return errors.New("enable error")
+}
+
+func (s *Group) Edit(groupId string, body types.GroupEditReq) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
+	var res types.GroupDataBoolResp
+	err := HttpPut(uri, body, &res, s.auth.Headers())
+	if err != nil {
+		return err
+	}
+	for k, v := range res.Data {
+		if v == false {
+			return fmt.Errorf("edit %s failed", k)
+		}
+	}
+	return nil
+}
+
+func (s *Group) Delete(groupId string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
+	var res types.GroupDataAnyResp
+	err := HttpDelete(uri, nil, &res, s.auth.Headers())
+	if err != nil {
+		return err
+	}
+
+	if res.Data["success"].(bool) {
+		return nil
+	}
+	return errors.New("delete failed")
+}
+
+func (s *Group) ChangeOwner(groupId, newOwner string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
+	var res types.GroupDataBoolResp
+	req := make(map[string]string)
+	req["newowner"] = newOwner
+	err := HttpPut(uri, req, &res, s.auth.Headers())
+	if err != nil {
+		return err
+	}
+	if res.Data["newowner"] {
+		return nil
+	}
+	return errors.New("change owner failed")
+}
+
+func (s *Group) AdminList(groupId string) (out []string) {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/admin", groupId))
+	var res types.GroupAdminListResp
+	err := HttpGet(uri, &res, s.auth.Headers())
+	if err != nil {
+		return
+	}
+	out = res.Data
+	return
+}
