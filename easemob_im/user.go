@@ -273,3 +273,30 @@ func (u *User) GetTokenByUsername(req *UserTokenByUsernameReq) (*types.AccessTok
 	}
 	return &res, nil
 }
+
+func (u *User) Deactivate(username string) error {
+	uri := u.auth.BuildURI("/users/" + username + "/deactivate")
+	var res types.UserResp
+	err := HttpPost(uri, nil, &res, u.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	if len(res.Entities) != 1 {
+		return errors.New("deactivate error")
+	}
+	ok := res.Entities[0].Activated == false
+	if !ok {
+		return errors.New("deactivate failed")
+	}
+	return nil
+}
+
+func (u *User) Activate(username string) error {
+	uri := u.auth.BuildURI("/users/" + username + "/activate")
+	var res types.BaseResp
+	err := HttpPost(uri, nil, &res, u.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}
