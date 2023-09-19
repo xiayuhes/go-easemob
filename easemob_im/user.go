@@ -300,3 +300,13 @@ func (u *User) Activate(username string) error {
 	}
 	return nil
 }
+
+func (u *User) AddContact(owner, username string) error {
+	uri := u.auth.BuildURI("/users/" + owner + "/contacts/users/" + username)
+	var res types.BaseResp
+	err := HttpPost(uri, nil, &res, u.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}

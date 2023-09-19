@@ -29,7 +29,7 @@ go get github.com/xiayuhes/go-easemob
 - [x] 推送设置
 - [ ] 消息管理
 - [x] 用户属性
-- [ ] 用户关系管理
+- [x] 用户关系管理
 - [x] 群组
 - [ ] 聊天室
 - [ ] 在线状态订阅
