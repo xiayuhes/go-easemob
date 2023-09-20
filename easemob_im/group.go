@@ -135,3 +135,29 @@ func (s *Group) RemoveAdmin(groupId string, admin string) error {
 	}
 	return err
 }
+
+func (s *Group) AddUsername(groupId string, username string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, username))
+	var res types.GroupDataBoolResp
+	err := HttpPost(uri, nil, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	if res.Data["result"] {
+		return nil
+	}
+	return err
+}
+
+func (s *Group) RemoveUsername(groupId string, username string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, username))
+	var res types.GroupDataBoolResp
+	err := HttpDelete(uri, nil, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	if res.Data["result"] {
+		return nil
+	}
+	return err
+}
