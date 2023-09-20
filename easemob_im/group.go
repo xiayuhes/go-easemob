@@ -107,3 +107,31 @@ func (s *Group) AdminList(groupId string) (out []string) {
 	out = res.Data
 	return
 }
+
+func (s *Group) AddAdmin(groupId string, admin string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/admin", groupId))
+	var res types.GroupResp
+	req := make(map[string]string)
+	req["newadmin"] = admin
+	err := HttpPost(uri, req, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	if res.Data["result"] == "success" {
+		return nil
+	}
+	return err
+}
+
+func (s *Group) RemoveAdmin(groupId string, admin string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/admin/%s", groupId, admin))
+	var res types.GroupResp
+	err := HttpDelete(uri, nil, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	if res.Data["result"] == "success" {
+		return nil
+	}
+	return err
+}
