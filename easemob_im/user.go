@@ -320,3 +320,26 @@ func (u *User) RemoveContact(owner, username string) error {
 	}
 	return nil
 }
+
+func (u *User) AddBlack(owner, username string) error {
+	body := map[string]interface{}{
+		"usernames": []string{username},
+	}
+	uri := u.auth.BuildURI("/users/" + owner + "/blocks/users")
+	var res types.BaseResp
+	err := HttpPost(uri, body, &res, u.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}
+
+func (u *User) RemoveBlack(owner, username string) error {
+	uri := u.auth.BuildURI("/users/" + owner + "/blocks/users/" + username)
+	var res types.BaseResp
+	err := HttpDelete(uri, nil, &res, u.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}
