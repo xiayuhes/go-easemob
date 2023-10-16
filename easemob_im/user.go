@@ -321,9 +321,9 @@ func (u *User) RemoveContact(owner, username string) error {
 	return nil
 }
 
-func (u *User) AddBlack(owner, username string) error {
+func (u *User) AddBlack(owner string, usernames []string) error {
 	body := map[string]interface{}{
-		"usernames": []string{username},
+		"usernames": usernames,
 	}
 	uri := u.auth.BuildURI("/users/" + owner + "/blocks/users")
 	var res types.BaseResp
