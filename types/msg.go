@@ -11,7 +11,16 @@ const (
 	MsgTypeCustom MsgType = "custom"
 )
 
-const RouteTypeOnline = "ROUTE_ONLINE"
+type ChatType string
+
+const (
+	Chat      ChatType = "chat"
+	GroupChat ChatType = "groupchat"
+)
+
+const (
+	RouteTypeOnline = "ROUTE_ONLINE"
+)
 
 type Message struct {
 	From       string      `json:"from"`
@@ -60,4 +69,9 @@ type MsgBodyImg struct {
 type MsgBodyCustom struct {
 	CustomEvent string            `json:"customEvent"` // 用户自定义的事件类型。该参数的值必须满足正则表达式 [a-zA-Z0-9-_/\.]{1,32}，长度为 1-32 个字符。
 	CustomExts  map[string]string `json:"customExts"`  // 用户自定义的事件属性，类型必须是 Map<String,String>，最多可以包含 16 个元素。customExts 是可选的，不需要可以不传。
+}
+
+type DataStringResp struct {
+	BaseResp
+	Data map[string]string `json:"data"`
 }
