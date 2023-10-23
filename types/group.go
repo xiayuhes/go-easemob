@@ -19,12 +19,12 @@ type GroupResp struct {
 	Data map[string]string `json:"data"`
 }
 
-type GroupDataBoolResp struct {
+type DataBoolResp struct {
 	BaseResp
 	Data map[string]bool `json:"data"`
 }
 
-type GroupDataAnyResp struct {
+type DataAnyResp struct {
 	BaseResp
 	Data map[string]interface{} `json:"data"`
 }

@@ -291,6 +291,19 @@ func (u *User) Deactivate(username string) error {
 	return nil
 }
 
+func (u *User) Disconnect(username string) error {
+	uri := u.auth.BuildURI("/users/" + username + "/disconnect")
+	var res types.DataBoolResp
+	err := HttpGet(uri, &res, u.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	if res.Data["result"] {
+		return nil
+	}
+	return errors.New("wait disconnect")
+}
+
 func (u *User) Activate(username string) error {
 	uri := u.auth.BuildURI("/users/" + username + "/activate")
 	var res types.BaseResp

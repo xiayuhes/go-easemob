@@ -29,7 +29,7 @@ func (s *Group) Create(body types.GroupCreateReq) (groupId string, err error) {
 
 func (s *Group) Disable(groupId string) (err error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/disable", groupId))
-	var res types.GroupDataBoolResp
+	var res types.DataBoolResp
 	err = HttpPost(uri, nil, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return
@@ -42,7 +42,7 @@ func (s *Group) Disable(groupId string) (err error) {
 
 func (s *Group) Enable(groupId string) (err error) {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/enable", groupId))
-	var res types.GroupDataBoolResp
+	var res types.DataBoolResp
 	err = HttpPost(uri, nil, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return
@@ -55,7 +55,7 @@ func (s *Group) Enable(groupId string) (err error) {
 
 func (s *Group) Edit(groupId string, body types.GroupEditReq) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
-	var res types.GroupDataBoolResp
+	var res types.DataBoolResp
 	err := HttpPut(uri, body, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return err
@@ -70,7 +70,7 @@ func (s *Group) Edit(groupId string, body types.GroupEditReq) error {
 
 func (s *Group) Delete(groupId string) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
-	var res types.GroupDataAnyResp
+	var res types.DataAnyResp
 	err := HttpDelete(uri, nil, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return err
@@ -84,7 +84,7 @@ func (s *Group) Delete(groupId string) error {
 
 func (s *Group) ChangeOwner(groupId, newOwner string) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s", groupId))
-	var res types.GroupDataBoolResp
+	var res types.DataBoolResp
 	req := make(map[string]string)
 	req["newowner"] = newOwner
 	err := HttpPut(uri, req, &res, s.auth.Headers())
@@ -138,7 +138,7 @@ func (s *Group) RemoveAdmin(groupId string, admin string) error {
 
 func (s *Group) AddUsername(groupId string, username string) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, username))
-	var res types.GroupDataBoolResp
+	var res types.DataBoolResp
 	err := HttpPost(uri, nil, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return err
@@ -151,7 +151,7 @@ func (s *Group) AddUsername(groupId string, username string) error {
 
 func (s *Group) RemoveUsername(groupId string, username string) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, username))
-	var res types.GroupDataBoolResp
+	var res types.DataBoolResp
 	err := HttpDelete(uri, nil, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return err
