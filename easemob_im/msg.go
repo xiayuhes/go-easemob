@@ -54,3 +54,14 @@ func (s *Msg) Delete(username, channel string, chatType types.ChatType, deleteRo
 	}
 	return nil
 }
+
+func (s *Msg) SendGroup(msg types.Message) error {
+	body := msg.ToMap()
+	uri := s.auth.BuildURI("/messages/chatgroups")
+	var res types.BaseResp
+	err := HttpPost(uri, body, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}

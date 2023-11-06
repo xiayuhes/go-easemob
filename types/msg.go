@@ -75,3 +75,13 @@ type DataStringResp struct {
 	BaseResp
 	Data map[string]string `json:"data"`
 }
+
+type MessageGroup struct {
+	From       string      `json:"from"`
+	To         []string    `json:"to"` // 消息接收方群组 ID 数组。每次最多可向 3 个群组发送消息。
+	Type       MsgType     `json:"type"`
+	Body       interface{} `json:"body"`
+	SyncDevice bool        `json:"sync_device"` // sync 消息发送成功后，是否将消息同步到发送方
+	RouteType  string      `json:"routetype"`   // 若传入该参数，其值为 ROUTE_ONLINE，表示接收方只有在线时才能收到消息，若接收方离线则无法收到消息。若不传入该参数，无论接收方在线还是离线都能收到消息。
+	MsgExt     `json:"ext"`
+}
