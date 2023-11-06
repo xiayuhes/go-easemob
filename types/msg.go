@@ -85,3 +85,11 @@ type MessageGroup struct {
 	RouteType  string      `json:"routetype"`   // 若传入该参数，其值为 ROUTE_ONLINE，表示接收方只有在线时才能收到消息，若接收方离线则无法收到消息。若不传入该参数，无论接收方在线还是离线都能收到消息。
 	MsgExt     `json:"ext"`
 }
+
+func (m MessageGroup) ToMap() map[string]interface{} {
+	data := gconv.MapDeep(m)
+	if m.RouteType == "" {
+		delete(data, "routetype")
+	}
+	return data
+}
