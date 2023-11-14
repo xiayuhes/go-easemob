@@ -149,6 +149,18 @@ func (s *Group) AddUsername(groupId string, username string) error {
 	return err
 }
 
+func (s *Group) AddUsernames(groupId string, usernames []string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users", groupId))
+	var res types.DataBoolResp
+	req := make(map[string]interface{})
+	req["usernames"] = usernames
+	err := HttpPost(uri, req, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}
+
 func (s *Group) RemoveUsername(groupId string, username string) error {
 	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, username))
 	var res types.DataBoolResp
@@ -160,4 +172,14 @@ func (s *Group) RemoveUsername(groupId string, username string) error {
 		return nil
 	}
 	return err
+}
+
+func (s *Group) RemoveUsernames(groupId string, usernames string) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, usernames))
+	var res types.DataBoolResp
+	err := HttpDelete(uri, nil, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
 }
