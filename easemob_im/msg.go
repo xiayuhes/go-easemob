@@ -55,7 +55,7 @@ func (s *Msg) Delete(username, channel string, chatType types.ChatType, deleteRo
 	return nil
 }
 
-func (s *Msg) SendGroup(msg types.MessageGroup) error {
+func (s *Msg) SendGroup(msg types.Message) error {
 	body := msg.ToMap()
 	uri := s.auth.BuildURI("/messages/chatgroups")
 	var res types.BaseResp
