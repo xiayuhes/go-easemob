@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gogf/gf/v2/container/gvar"
+	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/xiayuhes/go-easemob/types"
 )
 
@@ -168,9 +169,13 @@ func (s *Group) RemoveUsername(groupId string, username string) error {
 	return nil
 }
 
-func (s *Group) RemoveUsernames(groupId string, usernames string) error {
-	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, usernames))
-	var res types.DataAnyResp
+func (s *Group) RemoveUsernames(groupId string, usernames []string) error {
+	if len(usernames) == 1 {
+		return s.RemoveUsername(groupId, usernames[0])
+	}
+	us := gstr.Implode(",", usernames)
+	uri := s.auth.BuildURI(fmt.Sprintf("/chatgroups/%s/users/%s", groupId, us))
+	var res types.DataArrayResp
 	err := HttpDelete(uri, nil, &res, s.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return err

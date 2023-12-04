@@ -29,6 +29,11 @@ type DataAnyResp struct {
 	Data map[string]interface{} `json:"data"`
 }
 
+type DataArrayResp struct {
+	BaseResp
+	Data []map[string]interface{} `json:"data"`
+}
+
 type GroupAdminListResp struct {
 	BaseResp
 	Data []string `json:"data"`
