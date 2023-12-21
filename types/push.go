@@ -356,3 +356,20 @@ type PushListResp struct {
 	} `json:"data"`
 	Duration int `json:"duration"`
 }
+
+type PushNotificationReq struct {
+	// 对象类型，即会话类型：
+	//- user：用户，表示单聊；
+	//- chatgroup：群组，表示群聊。
+	ChatType string
+	// 对象名称：
+	//- 单聊时为对端用户的用户 ID；
+	//- 群聊时为群组 ID。
+	Key string
+	// 离线推送通知方式：
+	//- DEFAULT：指定的会话采用 app 的设置。该值仅对单聊或群聊会话有效，对 app 级别无效。
+	//- ALL：接收全部离线消息的推送通知；
+	//- AT：只接收提及当前用户的离线消息的推送通知。该字段推荐在群聊中使用。若提及一个或多个用户，需在创建消息时对 ext 字段传 "em_at_list":["user1", "user2" ...]；若提及所有人，对该字段传 "em_at_list":"all"。
+	//- NONE：不接收离线消息的推送通知。
+	Type string
+}

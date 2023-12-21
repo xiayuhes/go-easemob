@@ -84,3 +84,17 @@ func (s *Push) List(msg *types.PushListReq) (*types.PushListResp, error) {
 	}
 	return &res, nil
 }
+
+// SetNotification 通知设置
+func (s *Push) SetNotification(user string, msg *types.PushNotificationReq) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/users/%s/notification/%s/%s", user, msg.ChatType, msg.Key))
+	var res types.BaseResp
+	body := map[string]string{
+		"type": msg.Type,
+	}
+	err := HttpPut(uri, body, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}
