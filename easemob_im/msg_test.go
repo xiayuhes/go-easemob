@@ -16,7 +16,7 @@ func GetMsg(t *testing.T) *Msg {
 func TestMsg_SendCustom(t *testing.T) {
 	err := GetMsg(t).Send(types.Message{
 		From: "12",
-		To:   "1",
+		To:   []string{"1"},
 		Type: types.MsgTypeCustom,
 		Body: types.MsgBodyCustom{
 			CustomEvent: "applyFriend",
@@ -26,7 +26,10 @@ func TestMsg_SendCustom(t *testing.T) {
 		},
 		SyncDevice: true,
 		RouteType:  "",
-		MsgExt:     types.MsgExt{},
+		Attributes: map[string]interface{}{
+			"tex":  1,
+			"tex2": true,
+		},
 	})
 	if err != nil {
 		t.Error(err)
@@ -35,13 +38,16 @@ func TestMsg_SendCustom(t *testing.T) {
 
 func TestMsg_SendText(t *testing.T) {
 	err := GetMsg(t).Send(types.Message{
-		From:       "12",
-		To:         "1",
+		From:       "46",
+		To:         []string{"8"},
 		Type:       types.MsgTypeText,
 		Body:       types.MsgBodyText{Msg: "test 你好"},
-		SyncDevice: true,
+		SyncDevice: false,
 		RouteType:  "",
-		MsgExt:     types.MsgExt{},
+		Attributes: map[string]interface{}{
+			"tex":  1,
+			"tex2": true,
+		},
 	})
 	if err != nil {
 		t.Error(err)
