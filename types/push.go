@@ -373,3 +373,13 @@ type PushNotificationReq struct {
 	//- NONE：不接收离线消息的推送通知。
 	Type string
 }
+
+type PushEntity struct {
+	DeviceId     string `json:"device_id"`
+	DeviceToken  string `json:"device_token"`
+	NotifierName string `json:"notifier_name"`
+}
+
+type PushBindingResp struct {
+	Entities []*PushEntity `json:"entities"`
+}

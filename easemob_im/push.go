@@ -98,3 +98,23 @@ func (s *Push) SetNotification(user string, msg *types.PushNotificationReq) erro
 	}
 	return nil
 }
+
+func (s *Push) GetBinding(user string) (out []*types.PushEntity) {
+	uri := s.auth.BuildURI(fmt.Sprintf("/users/%s/push/binding", user))
+	var res types.PushBindingResp
+	err := HttpGet(uri, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return
+	}
+	return res.Entities
+}
+
+func (s *Push) SetBinding(user string, req types.PushEntity) error {
+	uri := s.auth.BuildURI(fmt.Sprintf("/users/%s/push/binding", user))
+	var res types.PushBindingResp
+	err := HttpPut(uri, req, &res, s.auth.Headers())
+	if !gvar.New(err).IsEmpty() {
+		return err
+	}
+	return nil
+}
