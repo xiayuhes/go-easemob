@@ -70,7 +70,7 @@ func (s *ListUserReq) BuildQuery() string {
 type UserResultResp struct {
 	BaseResp
 	Data struct {
-		Result bool `json:"result"`
+		Result string `json:"result"`
 	} `json:"data"`
 }
 
