@@ -142,7 +142,7 @@ func (u *User) ForceLogoutAllDevices(username string) (bool, error) {
 		return false, errors.New("please enter your username and password")
 	}
 	uri := u.auth.BuildURI(fmt.Sprintf("/users/%s/disconnect", username))
-	var res types.UserResultResp
+	var res types.UserDisconnectResultResp
 	err := HttpGet(uri, &res, u.auth.Headers())
 	if !gvar.New(err).IsEmpty() {
 		return false, err
@@ -194,7 +194,7 @@ func (u *User) UserMutes(req *types.UserMutesReq) (bool, error) {
 	if !gvar.New(err).IsEmpty() {
 		return false, err
 	}
-	return res.Data.Result, nil
+	return res.Data.Result == "ok", nil
 }
 
 // GetUserMutes 查询单个用户 ID 全局禁言

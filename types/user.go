@@ -74,6 +74,13 @@ type UserResultResp struct {
 	} `json:"data"`
 }
 
+type UserDisconnectResultResp struct {
+	BaseResp
+	Data struct {
+		Result bool `json:"result"`
+	} `json:"data"`
+}
+
 type UserStatusResp struct {
 	BaseResp
 	Data map[string]string `json:"data"`
